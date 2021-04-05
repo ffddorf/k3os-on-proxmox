@@ -15,6 +15,11 @@ module "k3s_primary" {
     "--tls-san=${local.computed_api_domain}",
     "--disable=servicelb",
     "--disable=traefik",
+    "--kube-apiserver-arg=token-auth-file=${local.k8s_token_file.path}",
+  ]
+
+  k3os_write_files = [
+    local.k8s_token_file
   ]
 
   pve_object_store_access_key = var.pve_object_store_access_key
