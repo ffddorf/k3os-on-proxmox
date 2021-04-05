@@ -3,7 +3,7 @@ terraform {
     organization = "ffddorf"
 
     workspaces {
-      name = "dorfadventure"
+      name = "dorfadventure-k8s"
     }
   }
 
