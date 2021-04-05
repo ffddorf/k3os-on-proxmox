@@ -63,6 +63,7 @@ locals {
       labels = var.k3s_node_labels
     }
   }
+  user_data_yaml = yamlencode(local.user_data)
 }
 
 variable "pve_object_store_access_key" {
@@ -81,5 +82,5 @@ module "user_data" {
   object_store_secret_key = var.pve_object_store_secret_key
 
   id      = local.vm_uuid
-  content = yamlencode(local.user_data)
+  content = local.user_data_yaml
 }

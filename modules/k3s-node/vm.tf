@@ -22,6 +22,8 @@ variable "storage_pool" {
 }
 
 resource "proxmox_vm_qemu" "k3s_node" {
+  depends_on = [module.user_data]
+
   name        = var.name
   target_node = var.target_node
   pool        = var.pool
@@ -68,6 +70,8 @@ resource "proxmox_vm_qemu" "k3s_node" {
   cicustom = "user=${module.user_data.location}"
 
   define_connection_info = false
+
+  force_recreate_on_change_of = sha1(local.user_data_yaml)
 
   lifecycle {
     ignore_changes = [
