@@ -76,7 +76,8 @@ resource "proxmox_vm_qemu" "k3s_node" {
 
   lifecycle {
     ignore_changes = [
-      full_clone
+      full_clone,
+      define_connection_info
     ]
   }
 }
