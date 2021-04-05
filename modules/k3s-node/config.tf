@@ -55,7 +55,10 @@ locals {
     k3os = {
       server_url = var.k3s_server_url
       token      = var.k3s_token
-      k3s_args   = concat([local.node_type], var.k3s_args)
+      k3s_args = concat(
+        [local.node_type, "--node-name=${var.name}"],
+        var.k3s_args
+      )
 
       labels = var.k3s_node_labels
     }
