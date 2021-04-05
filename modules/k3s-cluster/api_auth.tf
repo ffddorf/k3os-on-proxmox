@@ -12,7 +12,7 @@ locals {
   }
 }
 
-output "k8s_admin_token" {
-  value     = random_password.k8s_admin_token
+output "k8s_api_token" {
+  value     = local.k8s_admin_token
   sensitive = true
 }

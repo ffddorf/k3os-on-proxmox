@@ -81,3 +81,7 @@ resource "proxmox_vm_qemu" "k3s_node" {
     ]
   }
 }
+
+output "net_macaddress" {
+  value = proxmox_vm_qemu.k3s_node.network[0].macaddr
+}
