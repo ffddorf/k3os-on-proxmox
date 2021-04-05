@@ -46,7 +46,7 @@ variable "k3os_write_files" {
 
 locals {
   node_type = var.k3s_manager_node ? "server" : "agent"
-  user_cloud_init = {
+  user_data = {
     hostname            = var.name
     ssh_authorized_keys = [for user in var.ssh_access_github_users : "github:${user}"]
 
@@ -60,4 +60,23 @@ locals {
       labels = var.k3s_node_labels
     }
   }
+}
+
+variable "pve_object_store_access_key" {
+  type = string
+}
+
+variable "pve_object_store_secret_key" {
+  type      = string
+  sensitive = true
+}
+
+module "user_data" {
+  source = "../cloud-init-user-data"
+
+  object_store_access_key = var.pve_object_store_access_key
+  object_store_secret_key = var.pve_object_store_secret_key
+
+  id      = local.vm_uuid
+  content = yamlencode(local.user_data)
 }

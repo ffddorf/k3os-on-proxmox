@@ -1,11 +1,4 @@
 terraform {
-  required_providers {
-    proxmox = {
-      source  = "Telmate/proxmox"
-      version = "2.6.8"
-    }
-  }
-
   experiments = [module_variable_optional_attrs]
 }
 
@@ -51,7 +44,8 @@ resource "proxmox_vm_qemu" "k3s_node" {
   bootdisk = "virtio0"
 
   vga {
-    type = "serial0"
+    type   = "serial0"
+    memory = 0
   }
 
   serial {
@@ -71,7 +65,13 @@ resource "proxmox_vm_qemu" "k3s_node" {
   ipconfig0 = "ip=dhcp,ip6=auto"
 
   // k3os config
-  cicustom = "user=local:snippets/user_data_${var.name}.yml"
+  cicustom = "user=${module.user_data.location}"
 
   define_connection_info = false
+
+  lifecycle {
+    ignore_changes = [
+      full_clone
+    ]
+  }
 }
