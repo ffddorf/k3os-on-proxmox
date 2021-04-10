@@ -3,7 +3,7 @@ terraform {
     organization = "ffddorf"
 
     workspaces {
-      name = "dorfadventure-k8s"
+      name = "k3os-on-proxmox"
     }
   }
 
