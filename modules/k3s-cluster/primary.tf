@@ -39,6 +39,6 @@ module "primary_ip6" {
   prefix = var.ip6_prefix
 }
 
-output "k8s_api_url" {
-  value = "https://[${module.primary_ip6.address}]:6443"
+output "control_plane_ip6" {
+  value = module.primary_ip6.address
 }
