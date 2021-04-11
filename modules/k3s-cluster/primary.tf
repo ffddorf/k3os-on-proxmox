@@ -2,6 +2,11 @@ locals {
   computed_api_domain = length(var.api_domain) > 0 ? var.api_domain : "${var.cluster_name}.k3s.freifunk-duesseldorf.de"
 }
 
+variable "control_plane_port" {
+  type    = number
+  default = 6443
+}
+
 module "k3s_primary" {
   source = "../k3s-node"
 
@@ -12,6 +17,7 @@ module "k3s_primary" {
   k3s_server_url = "" # primary can omit this
   k3s_token      = local.node_token
   k3s_args = [
+    "--https-listen-port=${var.control_plane_port}", # for proxying via cloudflare
     "--tls-san=${local.computed_api_domain}",
     "--disable=servicelb",
     "--disable=traefik",

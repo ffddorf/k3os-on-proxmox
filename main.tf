@@ -16,6 +16,7 @@ module "cluster" {
 
   cluster_name       = local.cluster_name
   ip6_prefix         = "2001:678:b7c:201::/64"
+  control_plane_port = 8443
 
   providers = {
     aws.cloud_init = aws.cloud_init
