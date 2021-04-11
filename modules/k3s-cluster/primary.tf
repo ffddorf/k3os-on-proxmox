@@ -8,9 +8,9 @@ module "k3s_primary" {
   name        = "${var.cluster_name}-primary-1"
   target_node = "pve1"
 
-  k3s_manager_node = true
-  k3s_server_url   = "" # primary can omit this
-  k3s_token        = local.node_token
+  control_plane  = true
+  k3s_server_url = "" # primary can omit this
+  k3s_token      = local.node_token
   k3s_args = [
     "--tls-san=${local.computed_api_domain}",
     "--disable=servicelb",

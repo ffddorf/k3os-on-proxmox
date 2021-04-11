@@ -3,7 +3,7 @@ variable "ssh_access_github_users" {
   default = ["mraerino", "nomaster"]
 }
 
-variable "k3s_manager_node" {
+variable "control_plane" {
   type        = bool
   description = "Whether this is a server and not just an agent node"
   default     = false
@@ -45,7 +45,7 @@ variable "k3os_write_files" {
 }
 
 locals {
-  node_type = var.k3s_manager_node ? "server" : "agent"
+  node_type = var.control_plane ? "server" : "agent"
   user_data = {
     hostname            = var.name
     ssh_authorized_keys = [for user in var.ssh_access_github_users : "github:${user}"]
