@@ -22,8 +22,9 @@ module "k3s_primary" {
     local.k8s_token_file
   ]
 
-  pve_object_store_access_key = var.pve_object_store_access_key
-  pve_object_store_secret_key = var.pve_object_store_secret_key
+  providers = {
+    aws.cloud_init = aws.cloud_init
+  }
 }
 
 variable "ip6_prefix" {

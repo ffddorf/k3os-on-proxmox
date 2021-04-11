@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "3.35.0"
+    }
+  }
+}
+
 variable "object_store_bucket" {
   type    = string
   default = "cloud-init"

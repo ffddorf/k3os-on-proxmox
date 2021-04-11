@@ -13,8 +13,9 @@ module "cluster" {
   cluster_name = "dorfadventure"
   ip6_prefix   = "2001:678:b7c:201::/64"
 
-  pve_object_store_access_key = var.pve_object_store_access_key
-  pve_object_store_secret_key = var.pve_object_store_secret_key
+  providers = {
+    aws.cloud_init = aws.cloud_init
+  }
 }
 
 output "k8s_api_url" {

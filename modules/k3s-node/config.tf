@@ -66,21 +66,17 @@ locals {
   user_data_yaml = yamlencode(local.user_data)
 }
 
-variable "pve_object_store_access_key" {
-  type = string
-}
-
-variable "pve_object_store_secret_key" {
-  type      = string
-  sensitive = true
+provider "aws" {
+  alias = "cloud_init"
 }
 
 module "user_data" {
   source = "../cloud-init-user-data"
 
-  object_store_access_key = var.pve_object_store_access_key
-  object_store_secret_key = var.pve_object_store_secret_key
-
   id      = local.vm_uuid
   content = local.user_data_yaml
+
+  providers = {
+    aws = aws.cloud_init
+  }
 }
