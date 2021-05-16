@@ -7,6 +7,11 @@ variable "control_plane_port" {
   default = 6443
 }
 
+variable "ip6_prefix" {
+  type        = string
+  description = "Public IPv6 prefix assigned via RA at the hosting location"
+}
+
 module "k3s_primary" {
   source = "../k3s-node"
 
@@ -28,23 +33,17 @@ module "k3s_primary" {
     local.k8s_token_file
   ]
 
+  ip6_prefix = var.ip6_prefix
+
   providers = {
     aws.cloud_init = aws.cloud_init
   }
 }
 
-variable "ip6_prefix" {
-  type        = string
-  description = "Public IPv6 prefix assigned via RA at the hosting location"
-}
-
-module "primary_ip6" {
-  source = "../eui64-compute"
-
-  mac    = module.k3s_primary.net_macaddress
-  prefix = var.ip6_prefix
+locals {
+  control_plane_url = "https://[${module.k3s_primary.primary_ip6}]:${var.control_plane_port}"
 }
 
 output "control_plane_ip6" {
-  value = module.primary_ip6.address
+  value = module.k3s_primary.primary_ip6
 }

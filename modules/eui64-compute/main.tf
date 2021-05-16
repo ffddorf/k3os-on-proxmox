@@ -43,5 +43,5 @@ locals {
 }
 
 output "address" {
-  value = local.addr
+  value = lower(local.addr)
 }

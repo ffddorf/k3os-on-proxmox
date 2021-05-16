@@ -21,6 +21,11 @@ variable "storage_pool" {
   default = "system"
 }
 
+variable "ip6_prefix" {
+  type        = string
+  description = "Public IPv6 prefix assigned via RA at the hosting location"
+}
+
 resource "proxmox_vm_qemu" "k3s_node" {
   depends_on = [module.user_data]
 
@@ -82,6 +87,13 @@ resource "proxmox_vm_qemu" "k3s_node" {
   }
 }
 
-output "net_macaddress" {
-  value = proxmox_vm_qemu.k3s_node.network[0].macaddr
+module "primary_ip6" {
+  source = "../eui64-compute"
+
+  mac    = proxmox_vm_qemu.k3s_node.network[0].macaddr
+  prefix = var.ip6_prefix
+}
+
+output "primary_ip6" {
+  value = module.primary_ip6.address
 }
