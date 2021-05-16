@@ -13,7 +13,7 @@ variable "pool" {
 
 variable "target_node" {
   type    = string
-  default = "pm2"
+  default = "pve1"
 }
 
 variable "storage_pool" {
